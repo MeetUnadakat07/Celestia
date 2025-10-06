@@ -41,8 +41,6 @@ Write a working piece of code before time runs out — even as everything goes w
 - Responsive, glowing **Arabian-Night-themed** design (purple-gold gradient).  
 - Seamless entry point to launch **Blackout Game sessions**.  
 
-### 🖼 Preview  
-![Interface Preview](./Screenshot%202025-10-06%20211835.png)
 
 ---
 
