@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 import QuestionModal from "../ui/QuestionModal";
 
 const ButtonGrid = ({ year }) => {
-  const buttons = Array.from({ length: 50 }, (_, i) => i + 1);
+  const buttonCount = year === "first" ? 75 : 50;
+  const buttons = Array.from({ length: buttonCount }, (_, i) => i + 1);
 
   // ----------------------
   // FIRST YEAR (1..50)
@@ -59,7 +60,32 @@ const ButtonGrid = ({ year }) => {
     47: "Print all numbers between 1 and N that are both odd and divisible by 3.",
     48: "Take a number and print the count of even digits in it.",
     49: "Print all perfect squares between 1 and N that are also even.",
-    50: "Take a number N and print the sum of all numbers between 1 and N divisible by 3 or 5 but not both."
+    50: "Take a number N and print the sum of all numbers between 1 and N divisible by 3 or 5 but not both.",
+    51: "Take a number and print whether it's divisible by 4 and 6 both, or neither.",
+    52: "Take three numbers as input and print their average.",
+    53: "Take a number and print the sum of its first and last digits.",
+    54: "Input a number and count how many odd digits it has.",
+    55: "Input a number and print the product of its digits.",
+    56: "Take a number and print the difference between the sum of even and odd digits.",
+    57: "Print all numbers between 1 and N that are divisible by 4 but not by 8.",
+    58: "Take N as input and print all multiples of 9 up to N.",
+    59: "Print the cube of all even numbers between 1 and N.",
+    60: "Take a number and print all its factors.",
+    61: "Print all numbers between 1 and N that are divisible by both 4 and 9.",
+    62: "Take a number and print the product of all even numbers up to that number.",
+    63: "Input N and print the Nth Fibonacci number.",
+    64: "Take a number and print the product of its non-zero digits.",
+    65: "Take a number and print whether the sum of its digits is a prime number.",
+    66: "Input a number and print the reverse of its digits without converting it to a string.",
+    67: "Take a number and print the sum of cubes of its digits.",
+    68: "Take the user's birth year and print their current age.",
+    69: "Input the length and breadth of a rectangle and print its area and perimeter.",
+    70: "Input radius and print the area and circumference of a circle.",
+    71: "Input three sides of a triangle and check whether it is scalene, isosceles, or equilateral.",
+    72: "Input three angles and check whether they form a valid triangle.",
+    73: "Input the base and height of a triangle and print its area.",
+    74: "Print all numbers between 1 and N that are divisible by 11 but not by 22.",
+    75: "Input two numbers and print all numbers between them that are divisible by 7.",
   };
 
   // ----------------------
@@ -115,7 +141,7 @@ const ButtonGrid = ({ year }) => {
     47: "Define a structure Date with day, month, year. Input two dates and print which one is earlier.",
     48: "Write a program to find and print the sum of each row in a matrix.",
     49: "Input a sentence and print the number of vowels in each word.",
-    50: "Use a structure to store a student's name and marks in 3 subjects."
+    50: "Use a structure to store a student's name and marks in 3 subjects.",
   };
 
   // choose questions based on current year
@@ -138,41 +164,48 @@ const ButtonGrid = ({ year }) => {
 
   return (
     <>
-      <motion.div
-        className="w-full relative z-10"
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* small label so user sees which set is active */}
-        <div className="flex justify-center mb-6">
-          <div className="text-sm md:text-base px-3 py-1 rounded-full bg-white/6 text-gray-200">
-            Viewing: {year === "first" ? "First Year Challenges" : "Second Year Challenges"}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={year} // triggers animation when year changes
+          className="w-full relative z-10"
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: -20 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* small label so user sees which set is active */}
+          <div className="flex justify-center mb-6">
+            <div className="text-sm md:text-base px-3 py-1 rounded-full bg-white/6 text-gray-200">
+              Viewing:{" "}
+              {year === "first"
+                ? "First Year Challenges"
+                : "Second Year Challenges"}
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-5 justify-center">
-          {buttons.map((number, index) => (
-            <motion.div
-              key={number}
-              className="relative flex items-center justify-center"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.35,
-                delay: 0.15 + index * 0.01
-              }}
-            >
-              <Button
-                onClick={() => handleClick(number)}
-                className={`${gradientClasses} text-black rounded-2xl w-20 h-20 sm:w-24 sm:h-24 md:w-24 md:h-24 lg:w-24 lg:h-24 border-2 shadow-lg flex-shrink-0`}
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-5 justify-center">
+            {buttons.map((number, index) => (
+              <motion.div
+                key={number}
+                className="relative flex items-center justify-center"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  delay: 0.1 + index * 0.01,
+                }}
               >
-                <span className="font-semibold">{number}</span>
-              </Button>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+                <Button
+                  onClick={() => handleClick(number)}
+                  className={`${gradientClasses} text-black rounded-2xl w-20 h-20 sm:w-24 sm:h-24 md:w-24 md:h-24 lg:w-24 lg:h-24 border-2 shadow-lg flex-shrink-0`}
+                >
+                  <span className="font-semibold">{number}</span>
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       <QuestionModal
         isOpen={!!selected}
@@ -180,7 +213,9 @@ const ButtonGrid = ({ year }) => {
         question={
           questions[selected]
             ? questions[selected]
-            : `No question assigned for ${year === "first" ? "First" : "Second"} Year (button ${selected}).`
+            : `No question assigned for ${
+                year === "first" ? "First" : "Second"
+              } Year (button ${selected}).`
         }
         onClose={() => setSelected(null)}
       />
